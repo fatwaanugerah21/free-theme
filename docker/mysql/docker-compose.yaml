@@ -1,0 +1,37 @@
+# Creates a mysql database and wildfly instance
+# Usage: docker-compose up
+version: '2.0'
+services:
+  freeTheme_db:
+    container_name: freeTheme_mysql_db
+    image: 'mysql'
+    ports:
+      - '3307:3306'
+    expose:
+      - '3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${env.DB_USERNAME:sa}'
+      MYSQL_DATABASE: 'freeTheme'
+      MYSQL_USER: '${env.DB_USERNAME:sa}'
+      MYSQL_PASSWORD: '${env.DB_PASSWORD:sa}'
+  freeTheme_wildfly:
+    container_name: freeTheme_wildfly_mysql
+    image: 'bizhubaustralia/skyve-wildfly-mysql::latest'
+    ports:
+      - '8081:8080'
+      - '9991:9990'
+      - '8788:8787'
+    environment:
+      SKYVE_CONTENT: '/content/'
+      SKYVE_DATASTORE_DIALECT: 'org.skyve.impl.persistence.hibernate.dialect.MySQL8InnoDBSpatialDialect'
+      SKYVE_HOSTNAME: 'localhost'
+      SKYVE_PORT: '8081'
+      SKYVE_URL: 'http://localhost:8081'
+      DATABASE_URL: 'freeTheme_db'
+      DATABASE_PORT: '3306'
+      SKYVE_SECURITY_DOMAIN_NAME: 'freeTheme'
+      SKYVE_JNDI_NAME: 'freeThemeDB'
+      IDENTIFIER: 'DEV'
+    volumes:
+      - '../../deployments:/opt/jboss/wildfly/standalone/deployments/'
+      - './content:/content'
