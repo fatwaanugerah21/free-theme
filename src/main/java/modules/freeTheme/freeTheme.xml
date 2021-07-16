@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="http://www.skyve.org/xml/module" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" title="Free Theme" prototype="true" name="freeTheme" xsi:schemaLocation="http://www.skyve.org/xml/module ../../schemas/module.xsd">
+    <homeRef>list</homeRef>
+    <homeDocument>CoolestThing</homeDocument>
+    <documents>
+        <document ref="CoolestThing"/>
+    </documents>
+    <roles>
+        <role name="Viewer">
+            <description><![CDATA[Enough privileges to view Free Theme documents.]]></description>
+            <privileges>
+                <document name="CoolestThing" permission="_R__C"/>
+            </privileges>
+        </role>
+        <role name="Maintainer">
+            <description><![CDATA[Enough privileges to create and edit Free Theme documents.]]></description>
+            <privileges>
+                <document name="CoolestThing" permission="CRUDC"/>
+            </privileges>
+        </role>
+    </roles>
+    <menu>
+        <list document="CoolestThing" name="Coolest Things">
+            <role name="Maintainer"/>
+            <role name="Viewer"/>
+        </list>
+    </menu>
+</module>
